@@ -1,1 +1,1 @@
-# AIStudioProject
+Because it is too big to upload onto Github, you will need to download the data-download-pub78.csv file yourself from my folder ("Alexia's Overlapping Data Column Work") and put it in the same folder as the other data file and the Python notebook. This Python notebook does not have any of the Google Drive-related code and should work if the CSV files are in the same folder as the Python notebook.
