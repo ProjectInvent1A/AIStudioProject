@@ -21,11 +21,24 @@ from geopy.distance import geodesic
 import ast
 import os
 import time
+from google.cloud import storage
+import io
 
 
 # Load the dataset and initialize the model
 geolocator = Nominatim(user_agent="Community_Matching")
 model = SentenceTransformer('paraphrase-MiniLM-L6-v2')
+
+# google cloud storage
+# Set up GCS client
+#client = storage.Client()
+# Replace 'your-bucket-name' and 'your-file.csv' with your bucket and file name
+#bucket = client.get_bucket('final_org_dataset')
+#blob = bucket.blob('df_coordinates_cleaned.csv')
+
+# Download the CSV to a temporary file or read it into a DataFrame directly
+#data = blob.download_as_text()
+#df_cities = pd.read_csv(io.StringIO(data))
 
 path = "/Users/zoe/break through tech/AIStudioProject/org_matching/df_coordinates_cleaned.csv"
 df_cities = pd.read_csv(path, low_memory = False)
@@ -221,11 +234,12 @@ def update_results(n_clicks, topic, city, state, zipcode):
             results.append(
                 html.Div(
                     children=[
-                        html.H4(f"{org_name} ({similarity_score:.2f})"),
+                        html.H4(f"{org_name}"),
                         html.P(f"Location: {org_city}, {org_state}"),
                         html.P(f"About: {org_description}"),
-                        html.P(f"Website: {org_website}") if org_website else None
-                        #html.A("Visit Website", href=org_website, target="_blank") if org_website else None,
+                        html.P(["Website: ", 
+                                html.A(org_website, href=f"https://{org_website}" if not org_website.startswith(("http://", "https://")) else org_website, target="_blank")]
+                        ) if org_website else None
                     ],
                     style={"margin": "10px", "padding": "10px", "border": "1px solid #ddd"},
                 )
