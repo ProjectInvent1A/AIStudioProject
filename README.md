@@ -3,7 +3,7 @@ Project Summary
 
 The goal of our project was to to pair students in the 6th-12th grade with nonprofit organizations based on their location and interest to help them find potential local organizations to partner with in developing inventions for social good. We created an application that suggests five nearby organizations based on a user's input sentence that describes what they're interested in. 
 
-[**Final Product:**](https://community-matching-4030229048.us-central1.run.app/)
+[**Final Product**](https://community-matching-4030229048.us-central1.run.app/)
 
 Please note this takes a little while to load because it needs access to our large dataset (almost one million rows!).
 
