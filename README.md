@@ -14,6 +14,11 @@ Our final presentation slides give an overview of our project process and techno
 - [IRS Publication 78 Data 2024](https://www.irs.gov/charities-non-profits/tax-exempt-organization-search-bulk-data-downloads#pub78): List of organizations eligible to receive tax-deductible charitable contributions.
 - [Urban Data Catalog CBDO Population Dataset.csv 2022](https://datacatalog.urban.org/dataset/community-based-development-organization-sector-and-financial-datasets): Community-Based Development Organizations Sector
 
+**Our Datasets (Google Drive Links)**
+- [df_coordinates_cleaned.csv](https://drive.google.com/file/d/1UhCQyuGXV96iBc_4m1rgy1deUaGNKXm6/view?usp=sharing): Cities with their latitude, longitude coordinates
+- [df_api_final.csv](https://drive.google.com/file/d/1xv7R0Fm4Ss1ia8PnkPx9nOCWnu71mLbi/view?usp=sharing): Organizations with text descriptions from the Charity Navigator API
+- [final_dataset.csv](https://drive.google.com/file/d/1OD9l3hHe_LHZ8b4lSXMNEJFA2ATBX5lR/view?usp=sharing): Organizations with text descriptions and BERT sentence embedding vectors (very large file)
+
 
 Overview of Files in this Repository
 ---
@@ -36,7 +41,7 @@ Overview of Files in this Repository
 - **DashInterfaceWork.ipynb**
   - Creating a UI for our application using Dash
 - **ModelFullDataSet.ipynb**
-  - Saving the sentence embedding vector of each organization’s text description in the organizations dataframe, then ran the model on this complete dataset
+  - Saving the sentence embedding vector of each organization’s text description in the organizations dataframe, then running the model on this complete dataset
 
 
 **org_matching folder:** These are our final files for deployment. Our python file can be run locally and is also deployed on Google Cloud Run.
