@@ -1,15 +1,8 @@
-fastapi
 uvicorn
 dash
 pandas
-jupyter-dash
 torch
 sentence-transformers
 geopy
 geocoder
-fast-dash
-pyarrow
-google-cloud-storage
-google-cloud-core
-google-api-python-client
-google-cloud-aiplatform
+pyarrow[parquet]

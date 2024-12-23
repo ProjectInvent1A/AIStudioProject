@@ -14,39 +14,26 @@ import torch
 from sentence_transformers import SentenceTransformer, util
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
-import ast
-import os
 import time
-from google.cloud import storage
-import io
-import pyarrow.csv as csv
-import pyarrow.fs as fs
+import logging
 
 
-# Load the dataset and initialize the model
+# Add logger for error messages
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+logger.info("Initializing Dash app...")
+
+# loading geopy object
 geolocator = Nominatim(user_agent="Community_Matching")
-model = SentenceTransformer('paraphrase-MiniLM-L6-v2')
-
-# google cloud storage
-# Set up GCS client
-client = storage.Client()
-gcs = fs.GcsFileSystem()
-bucket = client.get_bucket('final_org_dataset')
-
-with gcs.open_input_file('final_org_dataset/df_coordinates_cleaned.csv') as file:
-    df_cities = csv.read_csv(file).to_pandas()
-
-print(df_cities.shape)
-
-
-blob_final = bucket.blob('final_dataset.csv')
-data_final = blob_final.download_as_text()
-final_df = pd.read_csv(io.StringIO(data_final))
-
-print(final_df.shape)
 
 # Create the Dash app
 app = Dash(__name__)
+server = app.server
+
+logger.info("Loading SentenceTransformer model...")
+model = SentenceTransformer('sentence-transformers/paraphrase-MiniLM-L6-v2')
+logger.info("Model loaded successfully!")
+
 
 # List of US states with abbreviations
 US_STATES_ABBR = [
@@ -55,8 +42,6 @@ US_STATES_ABBR = [
     "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"
 ]
 
-
-# Define the app layout
 app.layout = html.Div(
     children=[
         # Title and Logo
@@ -99,9 +84,18 @@ app.layout = html.Div(
                     style={"margin": "0 auto", "display": "block", "margin-bottom": "15px", "width": "50%", "padding": "10px", "color": "#333566"},
                 ),
                 html.Button("Submit", id="submit-button", n_clicks=0, style={"margin-top": "15px", "color": "#333566"}),
-                dcc.Loading(id="loading-bar", children=[html.Div(id="loading-bar-output")], style={"position": "relative", "top": "75px"}),
+                dcc.Loading(id="loading-bar", children=[html.Div(id="loading-bar-output")], style={"position": "relative", "top": "115px"}),
             ],
             style={"width": "50%", "margin": "0 auto", "text-align": "center", "backgroundColor":"white"},
+        ),
+
+        dcc.Loading(
+            id="loading-screen",
+            type="dot",
+            fullscreen=True,
+            children=[
+                html.Div(id="data-status", style={"display": "none"}),
+            ],
         ),
 
         # Results Section
@@ -116,6 +110,21 @@ app.layout = html.Div(
     ],
     style={"font-family": "Arial, sans-serif", "padding": "20px", "backgroundColor":"white"},
 )
+
+# Load the data
+@app.callback(
+    Output("data-status", "children"),
+    Input("data-status", "children"),
+    prevent_initial_call=False,  # Ensures the callback runs on app load
+)
+def load_data(input_data):
+    global df_cities, final_df
+    logger.info("Loading datasets...")
+    df_cities = pd.read_pickle('df_cities.pkl')
+    logger.info(f"{df_cities.shape}")
+    final_df = pd.read_pickle('final_df.pkl')
+    logger.info(f"{final_df.shape}")
+    return ""
 
 # Helper function to find nearby cities for a given (latitude, longitude) location
 # out of the list of cities, which has tuples of (city, state, coordinates)
@@ -250,10 +259,9 @@ def update_results(n_clicks, topic, city, state, zipcode):
             no_update, no_update, no_update, no_update, no_update,
         )
 
-# Run the Dash app inline
-if "DASH_APP_RUNNING" not in os.environ:
-    os.environ["DASH_APP_RUNNING"] = "1"
-    app.run_server(port=8050)
+
+if __name__ == '__main__':
+    app.run_server(host='0.0.0.0', port=8080)
 
 
 
