@@ -20,9 +20,9 @@ Overview of Files in this Repository
 
 **Development Process folder**: These are the Google Colab notebooks we used in developing our final product.
 - **CharityNavigatorAPIScript.ipynb**
-  - Developing script to call the Charity Navigator API — this code is then included in other notebooks where needed
+  - Developing a script to call the Charity Navigator API — this code is then included in other notebooks where needed
 - **AI Studio Project Data Cleaning.ipynb**
-  - Combining our two initial datasets (CBDO and IRS pub78) and doing some initial data cleaning. Pulled info about each organization’s purpose from the NTEE codes and Charity Navigator API. We ended up having to run the Charity Navigator API on the data in chunks, since our dataset is so big, so only the first chunk is seen here.
+  - Combining our two initial datasets (CBDO and IRS pub78) and doing some initial data cleaning. Pulled info about each organization’s purpose from the NTEE codes and Charity Navigator API. We ended up having to run the Charity Navigator API on the data in chunks, since our dataset is so big, so only the first chunk is seen here
 - **DataPreparationAndModeling.ipynb**
   - Data preparation for modeling: combined data chunks from API, dropped unnecessary columns, removed duplicates, and managed missing values.
 - **BTT_modeling.ipynb**
@@ -36,12 +36,12 @@ Overview of Files in this Repository
 - **DashInterfaceWork.ipynb**
   - Creating a UI for our application using Dash
 - **ModelFullDataSet.ipynb**
-  - Saving the sentence embedding vector of each organization’s text description in the organizations dataframe, then ran the model on this complete dataset.
+  - Saving the sentence embedding vector of each organization’s text description in the organizations dataframe, then ran the model on this complete dataset
 
 
 **org_matching folder:** These are our final files for deployment. Our python file can be run locally and is also deployed on Google Cloud Run.
 - **dashinterfacework.py**
-  - Final application code. A Dash interface that suggests organizations based on location and interest inputs
+  - Final application code: a Dash interface that suggests organizations based on location and interest inputs
 - **requirements.txt**
   - Package requirements for dashinterfacework.py
 - **Dockerfile**
